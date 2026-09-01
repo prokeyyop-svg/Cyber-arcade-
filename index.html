@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Cyber Arcade</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container" id="arcadeApp">
+
+        <div class="header-bar">
+            <button class="profile-btn" type="button" onclick="openProfile()" aria-label="About Noitik">👤 About</button>
+            <div class="welcome-title">WELCOME TO GAME HUB</div>
+            <div class="main-app-title">CYBER ARCADE</div>
+        </div>
+
+        <div class="shelf-view">
+            <div class="game-card">
+                <div class="game-icon" style="background: #4f46e5;">❓</div>
+                <div class="game-name">Python Quiz</div>
+                <button class="enter-btn" onclick="openGame('game-quiz')">Play</button>
+            </div>
+            <div class="game-card">
+                <div class="game-icon" style="background: #059669;">🔢</div>
+                <div class="game-name">Guess Number</div>
+                <button class="enter-btn" onclick="openGame('game-guess')">Play</button>
+            </div>
+            <div class="game-card">
+                <div class="game-icon" style="background: #d97706;">✂️</div>
+                <div class="game-name">Rock Paper Scissors</div>
+                <button class="enter-btn" onclick="openGame('game-rps')">Play</button>
+            </div>
+            <div class="game-card">
+                <div class="game-icon" style="background: #2563eb;">❌</div>
+                <div class="game-name">Tic Tac Toe</div>
+                <button class="enter-btn" onclick="openGame('game-ttt')">Play</button>
+            </div>
+            <div class="game-card">
+                <div class="game-icon" style="background: #dc2626;">🏎️</div>
+                <div class="game-name">Car Racing</div>
+                <button class="enter-btn" onclick="openGame('game-racing')">Play</button>
+            </div>
+            <div class="game-card">
+                <div class="game-icon" style="background: #10b981;">🐍</div>
+                <div class="game-name">Neon Snake</div>
+                <button class="enter-btn" onclick="openGame('game-snake')">Play</button>
+            </div>
+            <div class="game-card" style="grid-column: span 2;">
+                <div class="game-icon" style="background: #7c3aed;">🧟</div>
+                <div class="game-name">Zombie Survival</div>
+                <button class="enter-btn" onclick="openGame('game-zombie')">Play</button>
+            </div>
+        </div>
+
+        <!-- SCREENS -->
+        <div id="game-quiz" class="game-screen">
+            <div class="top-nav">
+                <button class="back-btn" onclick="closeGame()">◀ Exit</button>
+                <div class="screen-title">Code Quiz</div>
+            </div>
+            <div class="game-body quiz-body">
+                <div class="quiz-top">
+                    <span id="quiz-progress">Question 1 / 100</span>
+                    <span>Score: <b id="quiz-score">0</b></span>
+                </div>
+                <div class="quiz-category-row">
+                    <button class="quiz-cat active" onclick="setQuizCategory('all', this)">All</button>
+                    <button class="quiz-cat" onclick="setQuizCategory('Python', this)">Python</button>
+                    <button class="quiz-cat" onclick="setQuizCategory('HTML', this)">HTML</button>
+                    <button class="quiz-cat" onclick="setQuizCategory('CSS', this)">CSS</button>
+                    <button class="quiz-cat" onclick="setQuizCategory('Java', this)">Java</button>
+                </div>
+                <div class="quiz-question-card">
+                    <div id="quiz-category" class="quiz-category">Python</div>
+                    <p id="quiz-q">Loading question...</p>
+                </div>
+                <input type="text" id="quiz-a" class="quiz-input" placeholder="Type your answer..." autocomplete="off">
+                <button class="action-btn quiz-submit" onclick="checkQuiz()">Submit Answer</button>
+                <p id="quiz-res" class="quiz-result"></p>
+                <button id="quiz-next" class="action-btn quiz-next" onclick="nextQuizQuestion()" style="display:none;">Next Question ➜</button>
+                <button class="quiz-reset" onclick="resetQuiz()">↻ Restart Quiz</button>
+            </div>
+        </div>
+
+        <!-- 1. GUESS NUMBER -->
+        <div id="game-guess" class="game-screen">
+            <div class="top-nav">
+                <button class="back-btn" onclick="closeGame()">◀ Exit</button>
+                <div class="screen-title">Guess Number</div>
+            </div>
+            <div class="game-body">
+                <div class="difficulty-selector">
+                    <button class="diff-btn active" onclick="setGuessDiff('easy', this)">Easy (1-10)</button>
+                    <button class="diff-btn" onclick="setGuessDiff('normal', this)">Normal (1-100)</button>
+                    <button class="diff-btn" onclick="setGuessDiff('hard', this)">Hard (1-100000)</button>
+                </div>
+                <p id="guess-range-txt" style="margin: 15px 0 5px; color: #94a3b8;">Guess a number between 1 to 10</p>
+                <input type="number" id="guess-input" class="guess-input" placeholder="Enter number">
+                <button class="action-btn" onclick="playGuess()">Submit</button>
+                <p id="guess-res" style="margin-top: 15px; font-weight: 600; color: #facc15; text-align: center;"></p>
+            </div>
+        </div>
+
+        <!-- ROCK PAPER SCISSORS -->
+        <div id="game-rps" class="game-screen rps-screen">
+            <div class="top-nav rps-nav">
+                <button class="back-btn" onclick="closeGame()">◀ Exit</button>
+                <div class="screen-title">RPS // BATTLE ARENA</div>
+                <div class="rps-round">ROUND <b id="rps-round">1</b></div>
+            </div>
+            <div class="game-body rps-body">
+                <div class="rps-hero">
+                    <div class="eyebrow">⚡ NEON DUEL PROTOCOL</div>
+                    <h1>ROCK <span>•</span> PAPER <span>•</span> SCISSORS</h1>
+                    <p>Read the bot. Pick your weapon. Dominate the arena.</p>
+                </div>
+
+                <div class="rps-scoreboard">
+                    <div class="rps-score-card player">
+                        <span>YOU</span><b id="rps-you-score">0</b>
+                    </div>
+                    <div class="rps-vs">VS</div>
+                    <div class="rps-score-card bot">
+                        <span>CYBER BOT</span><b id="rps-bot-score">0</b>
+                    </div>
+                </div>
+
+                <div class="rps-arena" id="rps-arena">
+                    <div class="fighter-card player-fighter">
+                        <div class="fighter-label">PLAYER</div>
+                        <div class="hand-orb" id="rps-player-hand">?</div>
+                        <small id="rps-player-name">READY</small>
+                    </div>
+                    <div class="arena-center">
+                        <div class="energy-ring"></div>
+                        <strong id="rps-result-badge">READY?</strong>
+                    </div>
+                    <div class="fighter-card bot-fighter">
+                        <div class="fighter-label">AI</div>
+                        <div class="hand-orb" id="rps-bot-hand">?</div>
+                        <small id="rps-bot-name">SCANNING</small>
+                    </div>
+                </div>
+
+                <div class="rps-prompt">CHOOSE YOUR WEAPON</div>
+                <div class="rps-weapons">
+                    <button class="rps-choice rock" onclick="playRPS('rock')"><span>✊</span><b>ROCK</b><small>POWER</small></button>
+                    <button class="rps-choice paper" onclick="playRPS('paper')"><span>✋</span><b>PAPER</b><small>SHIELD</small></button>
+                    <button class="rps-choice scissors" onclick="playRPS('scissors')"><span>✌️</span><b>SCISSORS</b><small>BLADE</small></button>
+                </div>
+
+                <p id="rps-res" class="rps-result-text">Choose a move to start the duel.</p>
+                <button class="action-btn rps-reset" onclick="initRPS()">↻ RESET BATTLE</button>
+            </div>
+        </div>
+
+        <!-- 2. TIC TAC TOE -->
+        <div id="game-ttt" class="game-screen ttt-screen">
+            <div class="top-nav ttt-nav">
+                <button class="back-btn" onclick="closeGame()">◀ Exit</button>
+                <div class="screen-title">TIC TAC TOE // NEXUS</div>
+                <div class="ttt-live-dot"><i></i> LIVE</div>
+            </div>
+            <div class="game-body ttt-body">
+                <div class="ttt-hero">
+                    <div class="ttt-kicker">⚡ CYBER BOARD // BATTLE MODE</div>
+                    <h1>Choose Your <span>Battle</span></h1>
+                    <p>Challenge the AI or bring a friend. Every move matters.</p>
+                </div>
+
+                <div class="ttt-mode-grid">
+                    <button class="ttt-mode-card active" id="ttt-bot-mode" onclick="setTTTMode('bot', this)">
+                        <span class="mode-icon">🤖</span><span><b>VS CYBER BOT</b><small>AI • 3 DIFFICULTIES</small></span><em>SOLO</em>
+                    </button>
+                    <button class="ttt-mode-card" id="ttt-player-mode" onclick="setTTTMode('player', this)">
+                        <span class="mode-icon">👥</span><span><b>2 PLAYER DUEL</b><small>LOCAL • PASS & PLAY</small></span><em>LOCAL</em>
+                    </button>
+                </div>
+
+                <div class="ttt-toolbar">
+                    <div class="ttt-difficulty" id="ttt-difficulty-wrap">
+                        <button class="ttt-diff active" onclick="setTTTDifficulty('easy', this)">EASY</button>
+                        <button class="ttt-diff" onclick="setTTTDifficulty('pro', this)">PRO</button>
+                        <button class="ttt-diff" onclick="setTTTDifficulty('impossible', this)">IMPOSSIBLE</button>
+                    </div>
+                    <div class="ttt-turn" id="ttt-turn">YOUR TURN • X</div>
+                </div>
+
+                <div class="ttt-scoreboard">
+                    <div class="ttt-score-card x-score"><span id="ttt-x-label">YOU</span><b id="ttt-x-score">0</b></div>
+                    <div class="ttt-score-vs">VS</div>
+                    <div class="ttt-score-card o-score"><span id="ttt-o-label">CYBER BOT</span><b id="ttt-o-score">0</b></div>
+                </div>
+
+                <div class="ttt-board-shell">
+                    <div class="ttt-board-glow"></div>
+                    <div class="ttt-grid" id="ttt-board"></div>
+                </div>
+
+                <div class="ttt-status" id="ttt-res">Choose a mode and make your move.</div>
+                <div class="ttt-actions">
+                    <button class="ttt-action primary" onclick="resetTTT()">↻ NEW ROUND</button>
+                    <button class="ttt-action" onclick="resetTTTScore()">⌫ RESET SCORE</button>
+                </div>
+                <div class="ttt-tip">✦ <span id="ttt-tip-text">Beat the bot. Good luck, commander.</span></div>
+            </div>
+        </div>
+
+        <!-- 3. CAR RACING -->
+        <div id="game-racing" class="game-screen">
+            <div class="top-nav">
+                <button class="back-btn" onclick="closeGame()">◀ Exit</button>
+                <div class="screen-title">Cyber Racing</div>
+            </div>
+            <div class="game-body racing-body">
+                <div class="arcade-hud racing-hud">
+                    <div class="hud-chip"><span>🏁 SCORE</span><b id="racing-score">0</b></div>
+                    <div class="hud-chip"><span>⚡ SPEED</span><b id="racing-speed">FAST</b></div>
+                </div>
+                <div class="canvas-frame racing-frame">
+                    <canvas id="racingCanvas" width="300" height="390"></canvas>
+                </div>
+                <div class="controls racing-controls">
+                    <button class="ctrl-btn neon-control" aria-label="Move left" onclick="moveCar(-1)">◀</button>
+                    <button class="ctrl-btn neon-control" aria-label="Move right" onclick="moveCar(1)">▶</button>
+                </div>
+                <div class="hint-text">← A / D →  •  Dodge the traffic</div>
+                <button class="action-btn restart-btn" onclick="initRacing()">↻ Restart Race</button>
+            </div>
+        </div>
+
+        <!-- 4. NEON SNAKE -->
+        <div id="game-snake" class="game-screen">
+            <div class="top-nav">
+                <button class="back-btn" onclick="closeGame()">◀ Exit</button>
+                <div class="screen-title">Neon Snake Pro</div>
+            </div>
+            <div class="game-body">
+                <div class="game-score">Score: <b id="snake-score">0</b></div>
+                <canvas id="snakeCanvas" width="280" height="280"></canvas>
+                <div class="controls">
+                    <button class="ctrl-btn" onclick="changeSnakeDir('UP')">▲</button>
+                </div>
+                <div class="controls" style="margin-top: 5px;">
+                    <button class="ctrl-btn" onclick="changeSnakeDir('LEFT')">◀</button>
+                    <button class="ctrl-btn" onclick="changeSnakeDir('DOWN')">▼</button>
+                    <button class="ctrl-btn" onclick="changeSnakeDir('RIGHT')">▶</button>
+                </div>
+                <button class="action-btn" style="margin-top: 10px;" onclick="initSnake()">Restart Game</button>
+            </div>
+        </div>
+
+        <!-- 5. ZOMBIE SURVIVAL -->
+        <div id="game-zombie" class="game-screen">
+            <div class="top-nav">
+                <button class="back-btn" onclick="closeGame()">◀ Exit</button>
+                <div class="screen-title">Zombie Apocalypse</div>
+            </div>
+            <div class="game-body zombie-body">
+                <div class="zombie-topline">
+                    <div class="mission-title"><span class="pulse-dot"></span> NIGHTFALL PROTOCOL</div>
+                    <div class="wave-badge">WAVE <b id="zombie-wave">1</b></div>
+                </div>
+
+                <div class="zombie-hud cool-zombie-hud">
+                    <div class="zstat">
+                        <span class="stat-label">SCORE</span>
+                        <b id="zombie-score">0</b>
+                    </div>
+                    <div class="zstat">
+                        <span class="stat-label">AMMO</span>
+                        <b id="zombie-ammo">15</b>
+                    </div>
+                    <div class="zstat weapon-stat">
+                        <span class="stat-label">WEAPON</span>
+                        <b id="zombie-weapon">PISTOL</b>
+                    </div>
+                </div>
+
+                <div class="ammo-bar"><span id="zombie-ammo-bar"></span></div>
+
+                <div class="canvas-frame zombie-frame">
+                    <canvas id="zombieCanvas" width="300" height="360"></canvas>
+                </div>
+
+                <div class="weapon-row">
+                    <button class="weapon-btn active" onclick="selectZombieWeapon('Pistol', this)">🔫<small>PISTOL</small></button>
+                    <button class="weapon-btn" onclick="selectZombieWeapon('Shotgun', this)">💥<small>SHOTGUN</small></button>
+                    <button class="weapon-btn" onclick="selectZombieWeapon('Laser', this)">⚡<small>LASER</small></button>
+                </div>
+
+                <div class="controls zombie-controls">
+                    <button class="ctrl-btn move-control" aria-label="Move left" onclick="moveZombiePlayer(-20)">◀</button>
+                    <button class="shoot-btn" aria-label="Shoot" onclick="shootZombie()"><span>🔥</span> FIRE</button>
+                    <button class="ctrl-btn move-control" aria-label="Move right" onclick="moveZombiePlayer(20)">▶</button>
+                </div>
+
+                <div class="hint-text">A / D or ◀ ▶ to move  •  SPACE to fire</div>
+                <button class="action-btn restart-btn" onclick="initZombie()">↻ Restart Mission</button>
+            </div>
+        </div>
+
+        <!-- ABOUT / PROFILE MODAL -->
+        <div id="profile-modal" class="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profile-title">
+            <div class="profile-card">
+                <button class="profile-close" type="button" onclick="closeProfile()" aria-label="Close">✕</button>
+                <div class="profile-avatar">👤</div>
+                <div class="profile-kicker">PLAYER PROFILE</div>
+                <h2 id="profile-title">About Noitik</h2>
+                <p class="profile-text">Name: Noitik, age: 14. Noitik is a young game lover who enjoys exploring fun ideas, learning new things, and spending time with creative digital projects. He likes game interfaces that feel modern, smooth, colorful, and easy to use. This Cyber Arcade is a small collection of games made to be enjoyable and simple to play. Noitik enjoys challenges that test quick thinking, memory, timing, strategy, and patience. He is curious about technology and likes discovering how websites and games work behind the scenes. He can experiment with HTML, CSS, and JavaScript to understand how different parts of an interface connect together. He also enjoys trying different game modes and seeing how small design changes can make an app feel better. Noitik values creativity and likes turning simple ideas into something interactive. He prefers a clean interface with bright effects, responsive buttons, clear text, and a futuristic style. He can use this arcade as a place to practice coding while also having fun. His interests can include games, coding, technology, design, problem solving, and learning. He is still growing his skills, so every new project can be a chance to learn something useful. Noitik likes trying new challenges instead of always choosing the easiest option. He can improve by practicing regularly, reading examples, testing code, and fixing mistakes. He understands that good projects often need several attempts before everything works perfectly. He also appreciates simple controls because they make games comfortable to use on a phone. In this arcade, players can choose quizzes, number guessing, rock paper scissors, tic tac toe, racing, snake, or zombie survival. Each game gives a different kind of challenge and keeps the interface interesting. Noitik can use these games for entertainment or as inspiration for future coding projects. He likes the idea that a game can be both fun and educational. He can learn about buttons, events, animations, layouts, scoring systems, and game logic by studying projects like this one. His goal can be to keep learning, keep creating, and keep improving one project at a time. Noitik is the kind of player who enjoys curiosity, creativity, and experimentation. This profile is a simple introduction to him inside the Cyber Arcade. The information here is intentionally general and does not include private contact details. Most importantly, Noitik can keep exploring, learning, and building cool things while enjoying the games he creates.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
